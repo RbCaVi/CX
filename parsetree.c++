@@ -103,7 +103,6 @@ public:
 
 class ParseNodeDataLinesDefaultIterator:public ParseNodeDataLinesIterator{
 public:
-	ParseNodeData *data;
 	bool used=false;
 	ParseNodeDataLinesDefaultIterator(ParseNodeData *data):ParseNodeDataLinesIterator(data){}
 	std::string *getLine(){
@@ -186,7 +185,26 @@ public:
 	int value;
 
 	IntData(int v):value(v){}
+
+	ParseNodeDataLinesIterator *getLines();
 };
+
+class IntDataLinesIterator:public ParseNodeDataLinesIterator{
+public:
+	bool used=false;
+	IntDataLinesIterator(IntData *data):ParseNodeDataLinesIterator(data){}
+	std::string *getLine(){
+		if(used){
+			return NULL;
+		}
+		used=true;
+		return new std::string(std::to_string(((IntData*)data)->value));
+	}
+};
+
+ParseNodeDataLinesIterator *IntData::getLines(){
+	return new IntDataLinesIterator(this);
+}
 
 bool isNum(const char c){
 	return c>='0'&&c<='9';
@@ -205,14 +223,14 @@ public:
 			n*=10;
 			n+=toNum(s[i]);
 		}
-		s.substr(i);
+		s=s.substr(i);
 		return new ParseTreeNode(ParseNodeType::INT,new IntData(n));
 	}
 };
 
 int main(int argc, char const *argv[])
 {
-	Buffer *s=new Buffer("456",3);
+	Buffer *s=new Buffer("456abc",6);
 	ParserNode *n=new IntNode();
 	ParseTreeNode *t=n->run(*s);
 	LinesIterator *x=t->getLines();
