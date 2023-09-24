@@ -1,28 +1,7 @@
 #include <iterator>
 #include <cstdio>
-#include <cstring>
 
-class Buffer{
-public:
-	const char *data;
-	const size_t length;
-	Buffer(const char *data):data(data),length(strlen(data)){}
-	Buffer(const char *data,const size_t length):data(data),length(length){}
-
-	const char &operator[](const size_t i){
-		return data[i];
-	}
-
-	Buffer *substr(const size_t start){
-		return new Buffer(data,start,length);
-	}
-	Buffer *substr(const size_t start,const size_t end){
-		return new Buffer(data,start,end);
-	}
-
-private:
-	Buffer(const char *data,const size_t start,const size_t end):data(data+start),length(end-start){}
-};
+#include "buffer.h++"
 
 /*template<class T>
 class NextIterator{
