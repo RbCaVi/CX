@@ -42,7 +42,7 @@ public:
 
 	IntParser(Buffer *source):ParserNode(source){}
 
-	virtual bool run(size_t start){
+	bool run(size_t start){
 		this->start=start;
 		value=0;
 		size_t i;
@@ -54,11 +54,12 @@ public:
 			if(toAdd==0&&firstdigit){
 				// octal/hex literals?
 				i++;
-				if((*source)[i]=='x'||(*source)[i]=='X'){
+				char letter=(*source)[i];
+				if(letter=='x'||letter=='X'){
 					base=16;
-				}else if((*source)[i]=='b'||(*source)[i]=='B'){
+				}else if(letter=='b'||letter=='B'){
 					base=2;
-				}else if((*source)[i]=='o'||(*source)[i]=='O'){
+				}else if(letter=='o'||letter=='O'){
 					base=8;
 				}
 			}
@@ -72,7 +73,7 @@ public:
 		return true;
 	}
 
-	virtual bool backtrack(){
+	bool backtrack(){
 		return false;
 	};
 };
