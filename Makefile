@@ -16,7 +16,7 @@ file.o: file.c++ file.h++ buffer.h++
 parser.o: parser.c++ parser.h++ buffer.h++
 	g++ $(cflags) $(CFLAGS) -c parser.c++ -o parser.o
 
-intparser.o: intparser.c++ intparser.h++ parser.h++ buffer.h++
+intparser.o: intparser.c++ intparser.h++ parser.h++ buffer.h++ whitespace.h++
 	g++ $(cflags) $(CFLAGS) -c intparser.c++ -o intparser.o
 
 p2.o: p2.c++ file.h++ buffer.h++ whitespace.h++
