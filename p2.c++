@@ -1,4 +1,3 @@
-//#include <iterator>
 #include <cstdio>
 
 #include "buffer.h++"

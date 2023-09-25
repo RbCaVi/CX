@@ -1,3 +1,5 @@
+#include <iterator>
+
 template<class T>
 class NextIterator{
 public:
