@@ -3,21 +3,9 @@
 
 #include "buffer.h++"
 #include "whitespace.h++"
+#include "parser.h++"
 
-class ParserNode{
-public:
-	size_t start,end;
-	Buffer *source;
-
-	ParserNode(Buffer *source):source(source){}
-
-	virtual bool run(size_t start)=0;
-	virtual bool backtrack()=0;
-
-//	virtual NextIterator<std::string> *getLines()=0;
-};
-
-class IntParser:public ParserNode{
+class IntParser:public Parser{
 	bool isNum(const char c,unsigned int base){
 		if(base>10){
 			return (c>='a'&&c-'a'<base-10)||(c>='a'&&c-'A'<base-10)||(c>='0'&&c<'9');
@@ -40,7 +28,7 @@ class IntParser:public ParserNode{
 public:
 	unsigned long long value;
 
-	IntParser(Buffer *source):ParserNode(source){}
+	IntParser(Buffer *source):Parser(source){}
 
 	bool run(size_t start){
 		this->start=start;
