@@ -1,4 +1,4 @@
-.PHONY: all
+.PHONY: all clean
 
 cflags:=-std=c++20
 
@@ -30,3 +30,7 @@ p2.o: p2.c++ file.h++ buffer.h++ whitespace.h++
 
 p2: p2.o intparser.o parser.o buffer.o whitespace.o
 	g++ $(cflags) $(CFLAGS) p2.o intparser.o parser.o buffer.o whitespace.o -o p2
+
+clean:
+	rm p2
+	rm -f *.o
