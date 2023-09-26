@@ -4,7 +4,6 @@
 #include <string>
 
 #include "parser.h++"
-#include "buffer.h++"
 
 class OpParser:public Parser{
 	int index;

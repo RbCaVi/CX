@@ -1,4 +1,4 @@
-#include "whitespace.h++"
+#include "../whitespace.h++"
 #include "opparser.h++"
 
 #define OPCOUNT 33

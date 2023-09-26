@@ -2,7 +2,6 @@
 #define INTPARSER_H
 
 #include "parser.h++"
-#include "buffer.h++"
 
 class IntParser:public Parser{
 public:

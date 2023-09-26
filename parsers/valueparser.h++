@@ -5,7 +5,6 @@
 
 #include "parser.h++"
 #include "intparser.h++"
-#include "buffer.h++"
 
 enum class ValueType{
 	START,

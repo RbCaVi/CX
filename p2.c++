@@ -2,7 +2,7 @@
 
 #include "buffer.h++"
 #include "whitespace.h++"
-#include "intparser.h++"
+#include "parsers/intparser.h++"
 
 int main(int,char**){
 	Buffer *s=new Buffer("  0x456abc");

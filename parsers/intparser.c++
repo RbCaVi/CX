@@ -1,4 +1,4 @@
-#include "whitespace.h++"
+#include "../whitespace.h++"
 #include "intparser.h++"
 
 static bool isNum(const char c,unsigned int base){

@@ -1,7 +1,7 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-#include "buffer.h++"
+#include "../buffer.h++"
 
 class Parser{
 public:
