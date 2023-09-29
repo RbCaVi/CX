@@ -5,13 +5,24 @@
 
 #include "parser.h++"
 
-class OpParser:public Parser{
+class BinaryOpParser:public Parser{
 	int index;
 public:
 	std::string *op;
 	unsigned int precedence;
 	
-	OpParser(Buffer *source);
+	BinaryOpParser(Buffer *source);
+	bool run(size_t start);
+	bool backtrack();
+};
+
+class UnaryOpParser:public Parser{
+	int index;
+public:
+	std::string *op;
+	//unsigned int precedence;
+	
+	UnaryOpParser(Buffer *source);
 	bool run(size_t start);
 	bool backtrack();
 };
