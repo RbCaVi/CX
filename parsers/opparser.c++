@@ -11,7 +11,7 @@ static std::string ops[BOPCOUNT]={
 };
 
 enum Precedence{
-	UNARY=0,
+	//UNARY=0,
 	AND=1,
 	OR=2,
 	COMP=3,
