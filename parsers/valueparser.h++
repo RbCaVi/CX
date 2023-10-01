@@ -12,6 +12,10 @@ enum class ValueType{
 	END
 };
 
+union Value {
+	unsigned int i;
+};
+
 class ValueParser:public Parser{
 	union {
 		IntParser *i;
@@ -20,9 +24,7 @@ class ValueParser:public Parser{
 	void setValue();
 public:
 	ValueType type;
-	union {
-		unsigned int i;
-	} *value;
+	Value *value;
 	
 	ValueParser(Buffer *source);
 	bool run(size_t start);
