@@ -16,8 +16,11 @@ intparser.o: intparser.c++ intparser.h++ parser.h++ ../buffer.h++ ../whitespace.
 opparser.o: opparser.c++ opparser.h++ parser.h++ ../buffer.h++ ../whitespace.h++
 	g++ $(cflags) $(CFLAGS) -c $< -o $@
 
-valueparser.o: valueparser.c++ valueparser.h++ intparser.h++ parser.h++ ../buffer.h++
+valueparserpart.o: valueparser.c++ valueparser.h++ intparser.h++ parser.h++ ../buffer.h++
 	g++ $(cflags) $(CFLAGS) -c $< -o $@
+
+valueparser.o: valueparserpart.o intparser.o
+	ld -r $^ -o $@
 
 clean:
 	rm -f *.o
