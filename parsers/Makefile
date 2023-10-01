@@ -5,7 +5,7 @@
 
 .PHONY: all clean
 
-all: parser.o intparser.o opparser.o valueparser.o
+all: parser.o intparser.o opparser.o valueparser.o exprparser.o
 
 parser.o: parser.c++ parser.h++ ../buffer.h++
 	g++ $(cflags) $(CFLAGS) -c $< -o $@
@@ -20,6 +20,12 @@ valueparserpart.o: valueparser.c++ valueparser.h++ intparser.h++ parser.h++ ../b
 	g++ $(cflags) $(CFLAGS) -c $< -o $@
 
 valueparser.o: valueparserpart.o intparser.o
+	ld -r $^ -o $@
+
+exprparserpart.o: exprparser.c++ exprparser.h++ opparser.h++ parser.h++ ../buffer.h++
+	g++ $(cflags) $(CFLAGS) -c $< -o $@
+
+exprparser.o: exprparserpart.o valueparser.o opparser.o
 	ld -r $^ -o $@
 
 clean:
