@@ -1,4 +1,4 @@
-.PHONY: all clean
+.PHONY: all clean FORCE
 
 make = make upper-cflags="$(cflags)"
 
@@ -8,7 +8,7 @@ cflags := -std=c++20 -ggdb -g -Og -gdwarf-4
 
 all: p2
 
-parsers/%: parsers/Makefile
+parsers/%: parsers/Makefile FORCE
 	$(make) -C parsers $*
 
 whitespace.o: whitespace.c++ whitespace.h++
@@ -30,3 +30,5 @@ clean:
 	rm -f p2
 	rm -f *.o
 	$(make) -C parsers clean
+
+FORCE:
