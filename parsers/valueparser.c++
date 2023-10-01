@@ -2,15 +2,6 @@
 
 ValueParser::ValueParser(Buffer *source):Parser(source){}
 
-ValueType nextType(ValueType type){
-	switch(type){
-	case ValueType::INT:
-		return ValueType::END;
-	default:
-		return ValueType::END;
-	}
-}
-
 void ValueParser::nextParser(){
 	switch(type){
 	case ValueType::START:
@@ -36,7 +27,7 @@ void ValueParser::setValue(){
 
 bool ValueParser::run(size_t start){
 	this->start=start;
-	type=ValueType::INT;
+	value=new Value{};
 	nextParser();
 	while(type!=ValueType::END){
 		Parser *p;

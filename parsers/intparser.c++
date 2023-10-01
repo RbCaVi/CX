@@ -27,7 +27,7 @@ bool IntParser::run(size_t start){
 	value=0;
 	size_t i;
 	unsigned int base=10;
-	bool firstdigit;
+	bool firstdigit=true;
 	size_t starti=skipWhitespace(source,start);
 	for(i=starti;i<source->length&&isNum((*source)[i],base);i++){
 		value*=base;
