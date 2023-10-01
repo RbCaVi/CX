@@ -1,6 +1,6 @@
 make = make upper-cflags="$(cflags)"
 
-cxx = $(cxx)
+cxx = g++ $(cflags) $(CFLAGS)
 
 cflags := $(upper-cflags)
 
