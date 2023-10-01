@@ -8,16 +8,16 @@ parsers/%: parsers/Makefile
 	make -C parsers $*
 
 whitespace.o: whitespace.c++ whitespace.h++
-	g++ $(cflags) $(CFLAGS) -c whitespace.c++ -o whitespace.o
+	g++ $(cflags) $(CFLAGS) -c $< -o $@
 
 buffer.o: buffer.c++ buffer.h++
-	g++ $(cflags) $(CFLAGS) -c buffer.c++ -o buffer.o
+	g++ $(cflags) $(CFLAGS) -c $< -o $@
 
 file.o: file.c++ file.h++ buffer.h++
-	g++ $(cflags) $(CFLAGS) -c file.c++ -o file.o
+	g++ $(cflags) $(CFLAGS) -c $< -o $@
 
 p2.o: p2.c++ file.h++ buffer.h++ whitespace.h++
-	g++ $(cflags) $(CFLAGS) -c p2.c++ -o p2.o
+	g++ $(cflags) $(CFLAGS) -c $< -o $@
 
 p2: p2.o parsers/intparser.o parsers/parser.o buffer.o whitespace.o
 	g++ $(cflags) $(CFLAGS) $^ -o $@
