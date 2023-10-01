@@ -16,10 +16,10 @@ buffer.o: buffer.c++ buffer.h++
 file.o: file.c++ file.h++ buffer.h++
 	g++ $(cflags) $(CFLAGS) -c $< -o $@
 
-p2.o: p2.c++ file.h++ buffer.h++ whitespace.h++
+p2.o: p2.c++ parsers/valueparser.h++ parsers/parser.h++ file.h++ buffer.h++ whitespace.h++
 	g++ $(cflags) $(CFLAGS) -c $< -o $@
 
-p2: p2.o parsers/intparser.o parsers/parser.o buffer.o whitespace.o
+p2: p2.o parsers/valueparser.o parsers/parser.o buffer.o whitespace.o
 	g++ $(cflags) $(CFLAGS) $^ -o $@
 
 clean:
