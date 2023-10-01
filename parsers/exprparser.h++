@@ -5,23 +5,30 @@
 
 #include "parser.h++"
 #include "valueparser.h++"
+#include "opparser.h++"
 
 enum class ExprType{
 	VALUE,EXPR
 };
 
-class Expr{
+class Expr;
+
+struct ExprChild{
 	ExprType type;
 	union {
-		struct {
-			std::list<Expr*> *children;
-			std::string *op;
-		} *expr;
+		Expr *expr;
 		Value *value;
 	};
 };
 
+class Expr{
+	std::list<ExprChild*> *children;
+	std::string *op;
+};
+
 class ExprParser:public Parser{
+	std::list<ValueParser*> *children;
+	BinaryOpParser *op;
 public:
 	Expr *e;
 	
