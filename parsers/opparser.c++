@@ -53,7 +53,7 @@ bool BinaryOpParser::run(size_t start){
 	if(matched){
 		op=new std::string(ops[opi]);
 		precedence=bprecedences[opi];
-		end=start+i;
+		end=starti+i;
 		return true;
 	}
 	return false;
@@ -99,7 +99,7 @@ bool UnaryOpParser::run(size_t start){
 	if(matched){
 		op=new std::string(ops[opi]);
 		//precedence=uprecedences[opi];
-		end=start+i;
+		end=starti+i;
 		return true;
 	}
 	return false;
