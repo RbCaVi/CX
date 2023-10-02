@@ -50,7 +50,7 @@ bool IntParser::run(size_t start){
 	if(i==start){
 		return false;
 	}
-	end=this->start+i;
+	end=i;
 	return true;
 }
 
