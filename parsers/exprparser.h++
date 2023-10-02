@@ -21,7 +21,7 @@ struct ExprChild{
 	};
 };
 
-class Expr{
+struct Expr{
 	std::list<ExprChild*> *children;
 	std::string *op;
 };
