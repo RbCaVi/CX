@@ -1,4 +1,4 @@
-.PHONY: all clean FORCE
+.PHONY: all test clean FORCE
 
 make = make upper-cflags="$(cflags)"
 
@@ -25,6 +25,9 @@ p2.o: p2.c++ parsers/exprparser.h++ parsers/valueparser.h++ parsers/intparser.h+
 
 p2: p2.o parsers/exprparser.o parsers/parser.o buffer.o whitespace.o
 	$(cxx) $^ -o $@
+
+test: parsers/all
+	cd tests&&bash test.sh tests.json
 
 clean:
 	rm -f p2
