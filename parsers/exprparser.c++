@@ -1,5 +1,7 @@
 #include "exprparser.h++"
 
+#include <iostream>
+
 ExprParser::ExprParser(Buffer *source):Parser(source),children(new std::list<ValueParser*>()){}
 
 bool ExprParser::run(size_t start){
