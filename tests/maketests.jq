@@ -7,13 +7,30 @@ def getexpect:
   else
     "not"
   end+
-  "("+.check+","+(.value|tostring)+")";
+  "(("+.check+"),("+(.value|tostring)+"))";
 
 def escape:sub("\"";"\\\"");
 
 def processtest:
-  if type=="object" then
-    [][]
+  if .check|type=="object" then
+    ("("+(.check.base//"base")+")") as $base|
+    (.check.parts[0]|sub("@";$base)) as $newbase|
+    if .check.parts|length<=1 then
+      {
+        check:$newbase,
+        value:"(void*)NULL",
+        equal:false,
+        tests:.tests,
+        setbase:.setbase
+      }
+    else
+      {
+        check:$newbase,
+        value:"(void*)NULL",
+        equal:false,
+        tests:[.check.base=$newbase|.check.parts|=.[1:]|processtest],
+      }
+    end
   else
     .
   end;
@@ -33,12 +50,20 @@ def maketest:
       ""
     else
       "not"
-    end+"\" << "+(.value|tostring)+" << \", got \" << "+.check+" << std::endl;",
+    end+"\" << ("+(.value|tostring)+") << \", got \" << ("+.check+") << std::endl;",
     "}",
     "finalresult=finalresult&&testresult;",
-    if
-      .tests
-    then
+    if .setbase then
+      if .setbase==true then
+        "auto tempbase=("+.check+");"
+      else
+        "auto tempbase=("+.setbase+");"
+      end,
+      "auto base=tempbase;"
+    else
+      [][]
+    end,
+    if .tests then
       "if(testresult){",
       "\t"+(.tests[]|maketest),
       "}"
@@ -49,3 +74,4 @@ def maketest:
   "}";
 
 ($i|tonumber) as $inum|.[$inum].tests[]|"\t"+maketest
+#($i|tonumber) as $inum|.[$inum].tests[]|processtest
