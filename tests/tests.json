@@ -52,6 +52,44 @@
 			{
 				"check":"base->end",
 				"value":3
+			},
+			{
+				"check":"base->e",
+				"value":"(void*)NULL",
+				"equal":false,
+				"tests":[
+					{
+						"check":"base->e->children",
+						"value":"(void*)NULL",
+						"equal":false,
+						"tests":[
+							{
+								"check":"(*base->e->children)[0]",
+								"value":"(void*)NULL",
+								"equal":false,
+								"tests":[
+									{
+										"check":"(*base->e->children)[0]->type",
+										"value":"ExprType::VALUE",
+										"tests":[
+											{
+												"check":"(*base->e->children)[0]->value",
+												"value":"(void*)NULL",
+												"equal":false,
+												"tests":[
+													{
+														"check":"(*base->e->children)[0]->value->i",
+														"value":3
+													}
+												]
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
 			}
 		]
 	},
