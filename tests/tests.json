@@ -54,36 +54,27 @@
 				"value":3
 			},
 			{
-				"check":"base->e",
-				"value":"(void*)NULL",
-				"equal":false,
+				"check":{
+					"parts":[
+						"@->e",
+						"@->children",
+						"(*@)[0]"
+					]
+				},
+				"setbase":true,
 				"tests":[
 					{
-						"check":"base->e->children",
-						"value":"(void*)NULL",
-						"equal":false,
+						"check":"base->type",
+						"value":"ExprType::VALUE",
 						"tests":[
 							{
-								"check":"(*base->e->children)[0]",
+								"check":"base->value",
 								"value":"(void*)NULL",
 								"equal":false,
 								"tests":[
 									{
-										"check":"(*base->e->children)[0]->type",
-										"value":"ExprType::VALUE",
-										"tests":[
-											{
-												"check":"(*base->e->children)[0]->value",
-												"value":"(void*)NULL",
-												"equal":false,
-												"tests":[
-													{
-														"check":"(*base->e->children)[0]->value->i",
-														"value":3
-													}
-												]
-											}
-										]
+										"check":"base->value->i",
+										"value":3
 									}
 								]
 							}
