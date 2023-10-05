@@ -57,24 +57,56 @@
 				"check":{
 					"parts":[
 						"@->e",
-						"@->children",
-						"(*@)[0]"
+						"@->children"
 					]
 				},
 				"setbase":true,
 				"tests":[
 					{
-						"check":"base->type",
-						"value":"ExprType::VALUE",
+						"check":"(*base)[0]",
+						"value":"(void*)NULL",
+						"equal":false,
+						"setbase":true,
 						"tests":[
 							{
-								"check":"base->value",
-								"value":"(void*)NULL",
-								"equal":false,
+								"check":"base->type",
+								"value":"ExprType::VALUE",
 								"tests":[
 									{
-										"check":"base->value->i",
-										"value":3
+										"check":"base->value",
+										"value":"(void*)NULL",
+										"equal":false,
+										"tests":[
+											{
+												"check":"base->value->i",
+												"value":3
+											}
+										]
+									}
+								]
+							}
+						]
+					},
+					{
+						"check":"(*base)[1]",
+						"value":"(void*)NULL",
+						"equal":false,
+						"setbase":true,
+						"tests":[
+							{
+								"check":"base->type",
+								"value":"ExprType::VALUE",
+								"tests":[
+									{
+										"check":"base->value",
+										"value":"(void*)NULL",
+										"equal":false,
+										"tests":[
+											{
+												"check":"base->value->i",
+												"value":4
+											}
+										]
 									}
 								]
 							}
@@ -92,6 +124,67 @@
 			{
 				"check":"base->end",
 				"value":4
+			},
+			{
+				"check":{
+					"parts":[
+						"@->e",
+						"@->children"
+					]
+				},
+				"setbase":true,
+				"tests":[
+					{
+						"check":"(*base)[0]",
+						"value":"(void*)NULL",
+						"equal":false,
+						"setbase":true,
+						"tests":[
+							{
+								"check":"base->type",
+								"value":"ExprType::VALUE",
+								"tests":[
+									{
+										"check":"base->value",
+										"value":"(void*)NULL",
+										"equal":false,
+										"tests":[
+											{
+												"check":"base->value->i",
+												"value":3
+											}
+										]
+									}
+								]
+							}
+						]
+					},
+					{
+						"check":"(*base)[1]",
+						"value":"(void*)NULL",
+						"equal":false,
+						"setbase":true,
+						"tests":[
+							{
+								"check":"base->type",
+								"value":"ExprType::VALUE",
+								"tests":[
+									{
+										"check":"base->value",
+										"value":"(void*)NULL",
+										"equal":false,
+										"tests":[
+											{
+												"check":"base->value->i",
+												"value":4
+											}
+										]
+									}
+								]
+							}
+						]
+					}
+				]
 			}
 		]
 	}
