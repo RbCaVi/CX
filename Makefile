@@ -27,7 +27,7 @@ p2: p2.o parsers/exprparser.o parsers/parser.o buffer.o whitespace.o
 	$(cxx) $^ -o $@
 
 test: parsers/all
-	cd tests&&bash test.sh tests.json
+	CFLAGS="$(cflags) $(CFLAGS)" cd tests&&bash test.sh tests.json
 
 clean:
 	rm -f p2
