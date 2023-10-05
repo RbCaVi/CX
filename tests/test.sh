@@ -23,7 +23,7 @@ for ((i=0;i<length;i++)); do
 
 	cat > temp/test"${name}".c++ << EOF
 #include <iostream>
-#include <list>
+#include <vector>
 
 #include "../../buffer.h++"
 #include "../../parsers/${parserfile}.h++"
@@ -33,7 +33,7 @@ for ((i=0;i<length;i++)); do
 #endif
 
 template<class T>
-std::ostream &operator<<(std::ostream &os, std::list<T> l) {
+std::ostream &operator<<(std::ostream &os, std::vector<T> l) {
 	os << "[";
 	if(l.size()==0){
 		os << "]";

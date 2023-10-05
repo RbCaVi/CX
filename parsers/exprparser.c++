@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-ExprParser::ExprParser(Buffer *source):Parser(source),children(new std::list<ValueParser*>()){}
+ExprParser::ExprParser(Buffer *source):Parser(source),children(new std::vector<ValueParser*>()){}
 
 bool ExprParser::run(size_t start){
 	this->start=start;

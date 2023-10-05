@@ -1,7 +1,7 @@
 #ifndef EXPRPARSER_H
 #define EXPRPARSER_H
 
-#include <list>
+#include <vector>
 
 #include "parser.h++"
 #include "valueparser.h++"
@@ -22,12 +22,12 @@ struct ExprChild{
 };
 
 struct Expr{
-	std::list<ExprChild*> *children;
+	std::vector<ExprChild*> *children;
 	std::string *op;
 };
 
 class ExprParser:public Parser{
-	std::list<ValueParser*> *children;
+	std::vector<ValueParser*> *children;
 	BinaryOpParser *op;
 public:
 	Expr *e;
