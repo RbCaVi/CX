@@ -65,9 +65,13 @@ bool expectnot(T a,T2 b){
 }
 
 int main(int,char**){
-	Buffer *s=new Buffer("${input}");
-	${parser} *p=new ${parser}(s);
-	bool r=p->run(${start});
+	${parser} *base;
+	{
+		Buffer *s=new Buffer("${input}");
+		${parser} *p=new ${parser}(s);
+		bool r=p->run(${start});
+		base=p;
+	}
 	bool testresult,finalresult=true;
 $(cat "$tests"|jq --arg i "${i}" -rf maketests.jq)
 	if(finalresult){

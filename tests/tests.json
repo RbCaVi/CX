@@ -5,11 +5,11 @@
 		"input":"45",
 		"tests":[
 			{
-				"check":"p->end",
+				"check":"base->end",
 				"value":2
 			},
 			{
-				"check":"p->value",
+				"check":"base->value",
 				"value":45
 			}
 		]
@@ -20,11 +20,11 @@
 		"input":" 45",
 		"tests":[
 			{
-				"check":"p->end",
+				"check":"base->end",
 				"value":3
 			},
 			{
-				"check":"p->value",
+				"check":"base->value",
 				"value":45
 			}
 		]
@@ -35,11 +35,11 @@
 		"input":"0x45",
 		"tests":[
 			{
-				"check":"p->end",
+				"check":"base->end",
 				"value":4
 			},
 			{
-				"check":"p->value",
+				"check":"base->value",
 				"value":69
 			}
 		]
@@ -50,7 +50,7 @@
 		"input":"3+4",
 		"tests":[
 			{
-				"check":"p->end",
+				"check":"base->end",
 				"value":3
 			}
 		]
@@ -61,7 +61,7 @@
 		"input":"3+ 4",
 		"tests":[
 			{
-				"check":"p->end",
+				"check":"base->end",
 				"value":4
 			}
 		]
