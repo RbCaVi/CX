@@ -11,7 +11,6 @@ rm -rf temp
 mkdir temp
 
 for ((i=0;i<length;i++)); do
-	echo $i
 	parserfile=$(cat "$tests"|jq --arg i "${i}" -r '($i|tonumber) as $inum|.[$inum]|.parserfile//(.parser|ascii_downcase)')
 
 	parser=$(cat "$tests"|jq --arg i "${i}" -r '($i|tonumber) as $inum|.[$inum].parser')
