@@ -28,6 +28,10 @@ for ((i=0;i<length;i++)); do
 #include "../../buffer.h++"
 #include "../../parsers/${parserfile}.h++"
 
+#if __has_include("../../parsers/${parserfile}debug.c++") 
+#include "../../parsers/${parserfile}debug.c++"
+#endif
+
 template<class T>
 std::ostream &operator<<(std::ostream &os, std::list<T> l) {
 	os << "[";
