@@ -19,7 +19,7 @@ for ((i=0;i<length;i++)); do
 	input=$(cat "$tests"|jq --arg i "${i}" -r '($i|tonumber) as $inum|.[$inum].input')
 	name=$(cat "$tests"|jq --arg i "${i}" -r '($i|tonumber) as $inum|.[$inum].name')
 
-	echo "Doing $name"
+	echo "testing $name"
 
 	cat > temp/test"${name}".c++ << EOF
 #include <iostream>
