@@ -1,3 +1,4 @@
 #include "parser.h++"
 
-Parser::Parser(Buffer *source):source(source){}
+template<class T>
+Parser<T>::Parser(Buffer *source):source(source){}

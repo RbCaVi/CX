@@ -3,10 +3,13 @@
 
 #include "../buffer.h++"
 
+template<class T>
 class Parser{
 public:
 	size_t start,end;
 	Buffer *source;
+
+	T *value;
 
 	Parser(Buffer *source);
 
