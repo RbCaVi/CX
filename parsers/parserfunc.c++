@@ -1,10 +1,17 @@
 template<class T>
-struct ParseResult{
+struct ParserState{
+	Buffer source;
 	size_t start,end;
+	bool success;
 	T *value;
 }
 
 template<class T,class BtInfo>
-struct BtParseResult:public ParseResult<T>{
+struct BtParserState:public ParseResult<T>{
 	BtInfo *btinfo;
+}
+
+template<class T>
+class Parser{
+	ParseResult run(ParseResult )
 }
