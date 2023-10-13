@@ -3,9 +3,8 @@
 
 #include "parser.h++"
 
-class IntParser:public Parser{
+class IntParser:public Parser<unsigned long long>{
 public:
-	unsigned long long value;
 	
 	IntParser(Buffer *source);
 	bool run(size_t start);

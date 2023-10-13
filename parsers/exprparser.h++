@@ -26,11 +26,10 @@ struct Expr{
 	std::string *op;
 };
 
-class ExprParser:public Parser{
+class ExprParser:public Parser<Expr>{
 	std::vector<ValueParser*> *children;
 	BinaryOpParser *op;
 public:
-	Expr *e;
 	
 	ExprParser(Buffer *source);
 	bool run(size_t start);

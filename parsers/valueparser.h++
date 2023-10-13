@@ -12,19 +12,20 @@ enum class ValueType{
 	END
 };
 
-union Value {
-	unsigned int i;
+struct Value{
+	ValueType type;
+	union {
+		unsigned int i;
+	};
 };
 
-class ValueParser:public Parser{
+class ValueParser:public Parser<Value>{
 	union {
 		IntParser *i;
 	} parser;
 	void nextParser();
 	void setValue();
 public:
-	ValueType type;
-	Value *value;
 	
 	ValueParser(Buffer *source);
 	bool run(size_t start);
