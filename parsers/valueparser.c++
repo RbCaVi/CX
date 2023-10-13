@@ -3,25 +3,25 @@
 ValueParser::ValueParser(Buffer *source):Parser(source){}
 
 void ValueParser::nextParser(){
-	switch(type){
+	switch(value->type){
 	case ValueType::START:
 		parser.i=new IntParser(source);
-		type=ValueType::INT;
+		value->type=ValueType::INT;
 		return;
 	case ValueType::INT:
 		delete parser.i;
-		type=ValueType::END;
+		value->type=ValueType::END;
 		return;
 	default:
-		type=ValueType::END;
+		value->type=ValueType::END;
 		return;
 	}
 }
 
 void ValueParser::setValue(){
-	switch(type){
+	switch(value->type){
 	case ValueType::INT:
-		value->i=parser.i->value;
+		value->i=*(parser.i->value);
 	}
 }
 
@@ -29,16 +29,18 @@ bool ValueParser::run(size_t start){
 	this->start=start;
 	value=new Value{};
 	nextParser();
-	while(type!=ValueType::END){
-		Parser *p;
-		switch(type){
+	while(value->type!=ValueType::END){
+		bool result;
+		switch(value->type){
 		case ValueType::INT:
-			p=parser.i;
+			auto p=parser.i;
+			result=p->run(start);
+			end=p->end;
+			break;
 		}
-		bool result=p->run(start);
 		if(result){
 			setValue();
-			end=p->end;
+			this->end=end;
 			return true;
 		}else{
 			nextParser();
@@ -49,21 +51,22 @@ bool ValueParser::run(size_t start){
 
 bool ValueParser::backtrack(){
 	bool backtrack=true;
-	while(type!=ValueType::END){
-		Parser *p;
-		switch(type){
-		case ValueType::INT:
-			p=parser.i;
-		}
+	while(value->type!=ValueType::END){
 		bool result;
-		if(backtrack){
-			result=p->backtrack();
-		}else{
-			result=p->run(start);
+		switch(value->type){
+		case ValueType::INT:
+			auto p=parser.i;
+			if(backtrack){
+				result=p->backtrack();
+			}else{
+				result=p->run(start);
+			}
+			end=p->end;
+			break;
 		}
 		if(result){
 			setValue();
-			end=p->end;
+			this->end=end;
 			return true;
 		}else{
 			nextParser();

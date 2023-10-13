@@ -15,7 +15,7 @@ enum class ValueType{
 struct Value{
 	ValueType type;
 	union {
-		unsigned int i;
+		long long unsigned int i;
 	};
 };
 

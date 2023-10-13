@@ -24,13 +24,13 @@ IntParser::IntParser(Buffer *source):Parser(source){}
 
 bool IntParser::run(size_t start){
 	this->start=start;
-	value=0;
+	(*value)=0;
 	size_t i;
 	unsigned int base=10;
 	bool firstdigit=true;
 	size_t starti=skipWhitespace(source,start);
 	for(i=starti;i<source->length&&isNum((*source)[i],base);i++){
-		value*=base;
+		(*value)*=base;
 		int toAdd=toNum((*source)[i],base);
 		if(toAdd==0&&firstdigit){
 			// octal/hex literals?
@@ -44,7 +44,7 @@ bool IntParser::run(size_t start){
 				base=8;
 			}
 		}
-		value+=toAdd;
+		(*value)+=toAdd;
 		firstdigit=false;
 	}
 	if(i==start){

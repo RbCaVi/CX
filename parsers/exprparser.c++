@@ -6,7 +6,7 @@ ExprParser::ExprParser(Buffer *source):Parser(source),children(new std::vector<V
 
 bool ExprParser::run(size_t start){
 	this->start=start;
-	e=new Expr{new std::vector<ExprChild*>(),NULL};
+	value=new Expr{new std::vector<ExprChild*>(),NULL};
 	// parse two values and a binary op
 	ValueParser *v1=new ValueParser(source);
 	children->push_back(v1);
@@ -29,9 +29,9 @@ bool ExprParser::run(size_t start){
 		return false;
 	}
 	end=v2->end;
-	e->op=op->op;
-	e->children->push_back(new ExprChild{.type=ExprType::VALUE,.value=v1->value});
-	e->children->push_back(new ExprChild{.type=ExprType::VALUE,.value=v2->value});
+	value->op=op->value->op;
+	value->children->push_back(new ExprChild{.type=ExprType::VALUE,.value=v1->value});
+	value->children->push_back(new ExprChild{.type=ExprType::VALUE,.value=v2->value});
 	return true;
 }
 
