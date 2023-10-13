@@ -9,7 +9,7 @@
 				"value":2
 			},
 			{
-				"check":"base->value",
+				"check":"*(base->value)",
 				"value":45
 			}
 		]
@@ -24,7 +24,7 @@
 				"value":3
 			},
 			{
-				"check":"base->value",
+				"check":"*(base->value)",
 				"value":45
 			}
 		]
@@ -39,7 +39,7 @@
 				"value":4
 			},
 			{
-				"check":"base->value",
+				"check":"*(base->value)",
 				"value":69
 			}
 		]
@@ -56,7 +56,7 @@
 			{
 				"check":{
 					"parts":[
-						"@->e",
+						"@->value",
 						"@->children"
 					]
 				},
@@ -128,7 +128,7 @@
 			{
 				"check":{
 					"parts":[
-						"@->e",
+						"@->value",
 						"@->children"
 					]
 				},

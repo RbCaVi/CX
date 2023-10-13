@@ -81,7 +81,7 @@ $(cat "$tests"|jq --arg i "${i}" -rf maketests.jq)
 }
 EOF
 
-	g++ $CFLAGS -o temp/test"${name}" temp/test"${name}".c++ ../buffer.o ../whitespace.o ../parsers/parser.o ../parsers/${parserfile}.o&&
+	g++ $CFLAGS -o temp/test"${name}" temp/test"${name}".c++ ../buffer.o ../whitespace.o ../parsers/${parserfile}.o&&
 	if temp/test"${name}">temp/test${name}-out; then
    	echo "succeeded"
 		rm temp/test"${name}".c++ temp/test"${name}" temp/test${name}-out
