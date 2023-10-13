@@ -23,7 +23,7 @@ file.o: file.c++ file.h++ buffer.h++
 p2.o: p2.c++ parsers/exprparser.h++ parsers/valueparser.h++ parsers/intparser.h++ parsers/opparser.h++ parsers/parser.h++ file.h++ buffer.h++ whitespace.h++
 	$(cxx) -c $< -o $@
 
-p2: p2.o parsers/exprparser.o parsers/parser.o buffer.o whitespace.o
+p2: p2.o parsers/exprparser.o buffer.o whitespace.o
 	$(cxx) $^ -o $@
 
 test: parsers/all
