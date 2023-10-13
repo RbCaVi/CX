@@ -24,7 +24,7 @@ IntParser::IntParser(Buffer *source):Parser(source){}
 
 bool IntParser::run(size_t start){
 	this->start=start;
-	(*value)=0;
+	value=new long long unsigned int(0);
 	size_t i;
 	unsigned int base=10;
 	bool firstdigit=true;
