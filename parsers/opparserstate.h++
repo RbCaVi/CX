@@ -3,7 +3,19 @@
 
 #include <string>
 
-#include "parser.h++"
+#include "parserstate.h++"
+
+enum Precedence{
+	//UNARY=0,
+	AND=1,
+	OR=2,
+	COMP=3,
+	BITAND=4,
+	BITOR=5,
+	POWER=6,
+	ADD=7,
+	MULT=8,
+};
 
 struct BinaryOp{
 	std::string *op;
@@ -15,8 +27,7 @@ class BinaryOpParser:public Parser<BinaryOp>{
 public:
 	
 	BinaryOpParser(Buffer *source);
-	bool run(size_t start);
-	bool backtrack();
+	bool run(ParserState<BinaryOp> *state);
 };
 
 struct UnaryOp{
@@ -29,7 +40,6 @@ class UnaryOpParser:public Parser<UnaryOp>{
 public:
 	
 	UnaryOpParser(Buffer *source);
-	bool run(size_t start);
-	bool backtrack();
+	bool run(ParserState<UnaryOp> *state);
 };
 #endif

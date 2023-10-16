@@ -1,5 +1,5 @@
 #include "../whitespace.h++"
-#include "opparser.h++"
+#include "opparserstate.h++"
 
 #define BOPCOUNT 32
 
@@ -10,18 +10,6 @@ static std::string ops[BOPCOUNT]={
 	//"@@","@*","@/","@+","@-","@&","@|","@",
 };
 
-enum Precedence{
-	//UNARY=0,
-	AND=1,
-	OR=2,
-	COMP=3,
-	BITAND=4,
-	BITOR=5,
-	POWER=6,
-	ADD=7,
-	MULT=8,
-};
-
 // zero for unary ops
 static Precedence bprecedences[BOPCOUNT]={
 	COMP,COMP,COMP,COMP,COMP,COMP,COMP,COMP,COMP,COMP,COMP,COMP,COMP,COMP,COMP,COMP,
@@ -30,11 +18,9 @@ static Precedence bprecedences[BOPCOUNT]={
 	//"@@","@*","@/","@+","@-","@&","@|","@",
 };
 
-BinaryOpParser::BinaryOpParser(Buffer *source):Parser(source){}
-
-bool BinaryOpParser::run(size_t start){
-	this->start=start;
-	size_t starti=skipWhitespace(source,start);
+bool BinaryOpParser::run(ParserState<BinaryOp> *state){
+	Buffer *source=state->source;
+	size_t starti=skipWhitespace(source,state->start);
 	bool matched=false;
 	size_t i,opi;
 	for(opi=0;opi<BOPCOUNT;opi++){
@@ -51,16 +37,12 @@ bool BinaryOpParser::run(size_t start){
 		}
 	}
 	if(matched){
-		value=new BinaryOp{.op=new std::string(ops[opi]),.precedence=bprecedences[opi]};
-		end=starti+i;
+		state->value=new BinaryOp{.op=new std::string(ops[opi]),.precedence=bprecedences[opi]};
+		state->end=starti+i;
 		return true;
 	}
 	return false;
 }
-
-bool BinaryOpParser::backtrack(){
-	return false;
-};
 
 #define UOPCOUNT 5
 
@@ -75,11 +57,9 @@ static std::string uops[UOPCOUNT]={
 	//"@@","@*","@/","@+","@-","@&","@|","@",
 };*/
 
-UnaryOpParser::UnaryOpParser(Buffer *source):Parser(source){}
-
-bool UnaryOpParser::run(size_t start){
-	this->start=start;
-	size_t starti=skipWhitespace(source,start);
+bool UnaryOpParser::run(ParserState<UnaryOp> *state){
+	Buffer *source=state->source;
+	size_t starti=skipWhitespace(source,state->start);
 	bool matched=false;
 	size_t i,opi;
 	for(opi=0;opi<UOPCOUNT;opi++){
@@ -96,13 +76,9 @@ bool UnaryOpParser::run(size_t start){
 		}
 	}
 	if(matched){
-		value=new UnaryOp{.op=new std::string(ops[opi])/*,.precedence=uprecedences[opi]*/};
-		end=starti+i;
+		state->value=new UnaryOp{.op=new std::string(ops[opi])/*,.precedence=uprecedences[opi]*/};
+		state->end=starti+i;
 		return true;
 	}
 	return false;
 }
-
-bool UnaryOpParser::backtrack(){
-	return false;
-};
