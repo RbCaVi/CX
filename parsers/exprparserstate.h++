@@ -2,10 +2,11 @@
 #define EXPRPARSER_H
 
 #include <vector>
+#include <tuple>
 
-#include "parser.h++"
-#include "valueparser.h++"
-#include "opparser.h++"
+#include "parserstate.h++"
+#include "valueparserstate.h++"
+#include "opparserstate.h++"
 
 enum class ExprType{
 	VALUE,EXPR
@@ -27,12 +28,12 @@ struct Expr{
 };
 
 class ExprParser:public Parser<Expr>{
-	std::vector<ValueParser*> *children;
+private:
+	ValueParser *v;
 	BinaryOpParser *op;
 public:
-	
-	ExprParser(Buffer *source);
-	bool run(size_t start);
-	bool backtrack();
+	ExprParser();
+	bool run(ParserState<Expr> *state);
 };
+
 #endif

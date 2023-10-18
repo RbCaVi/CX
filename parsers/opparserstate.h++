@@ -25,8 +25,6 @@ struct BinaryOp{
 class BinaryOpParser:public Parser<BinaryOp>{
 	int index;
 public:
-	
-	BinaryOpParser(Buffer *source);
 	bool run(ParserState<BinaryOp> *state);
 };
 
@@ -38,8 +36,6 @@ struct UnaryOp{
 class UnaryOpParser:public Parser<UnaryOp>{
 	int index;
 public:
-	
-	UnaryOpParser(Buffer *source);
 	bool run(ParserState<UnaryOp> *state);
 };
 #endif
