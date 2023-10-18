@@ -11,7 +11,7 @@ cflags := $(upper-cflags)
 
 .PHONY: all clean
 
-all: intparserstate.o opparserstate.o valueparser.o exprparser.o
+all: intparserstate.o opparserstate.o valueparserstate.o exprparser.o
 
 intparserstate.o: intparserstate.c++ intparserstate.h++ parserstate.h++ ../buffer.h++ ../whitespace.h++
 	$(cxx) -c $< -o $@
@@ -19,16 +19,16 @@ intparserstate.o: intparserstate.c++ intparserstate.h++ parserstate.h++ ../buffe
 opparserstate.o: opparserstate.c++ opparserstate.h++ parserstate.h++ ../buffer.h++ ../whitespace.h++
 	$(cxx) -c $< -o $@
 
-valueparserpart.o: valueparser.c++ valueparser.h++ intparserstate.h++ parserstate.h++ ../buffer.h++
+valueparserstatepart.o: valueparserstate.c++ valueparserstate.h++ intparserstate.h++ parserstate.h++ ../buffer.h++
 	$(cxx) -c $< -o $@
 
-valueparser.o: valueparserpart.o intparserstate.o
+valueparserstate.o: valueparserstatepart.o intparserstate.o
 	ld -r $^ -o $@
 
 exprparserpart.o: exprparser.c++ exprparser.h++ opparserstate.h++ parserstate.h++ ../buffer.h++
 	$(cxx) -c $< -o $@
 
-exprparser.o: exprparserpart.o valueparser.o opparserstate.o
+exprparser.o: exprparserpart.o valueparserstate.o opparserstate.o
 	ld -r $^ -o $@
 
 clean:
