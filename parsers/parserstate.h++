@@ -32,7 +32,7 @@ public:
 			return run(state);
 		}
 	}
-	virtual bool run(ParserState<T> *state);
+	virtual bool run(ParserState<T> *state){return false;}
 	virtual bool backtrack(ParserState<T> *state){return false;}
 };
 
