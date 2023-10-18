@@ -11,7 +11,10 @@ cflags := $(upper-cflags)
 
 .PHONY: all clean
 
-all: intparserstate.o opparserstate.o valueparserstate.o exprparserstate.o
+all: parserstate.o intparserstate.o opparserstate.o valueparserstate.o exprparserstate.o
+
+parserstate.o: parserstate.c++ parserstate.h++ ../buffer.h++
+	$(cxx) -c $< -o $@
 
 intparserstate.o: intparserstate.c++ intparserstate.h++ parserstate.h++ ../buffer.h++ ../whitespace.h++
 	$(cxx) -c $< -o $@
