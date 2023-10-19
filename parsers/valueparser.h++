@@ -22,6 +22,6 @@ private:
 	IntParser *i;
 public:
 	ValueParser();
-	bool run(ParserState<Value> *state);
+	bool run(ParserState<Value> *state) override;
 };
 #endif

@@ -23,9 +23,8 @@ struct BinaryOp{
 };
 
 class BinaryOpParser:public Parser<BinaryOp>{
-	int index;
 public:
-	bool run(ParserState<BinaryOp> *state);
+	bool run(ParserState<BinaryOp> *state) override;
 };
 
 struct UnaryOp{
@@ -34,8 +33,7 @@ struct UnaryOp{
 };
 
 class UnaryOpParser:public Parser<UnaryOp>{
-	int index;
 public:
-	bool run(ParserState<UnaryOp> *state);
+	bool run(ParserState<UnaryOp> *state) override;
 };
 #endif

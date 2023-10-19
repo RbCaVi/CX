@@ -8,7 +8,7 @@
 class StringParser:public Parser<std::string>{
 	std::string &s;
 	StringParser(std::string s);
-	bool run(ParserState<std::string> *state);
+	bool run(ParserState<std::string> *state) override;
 };
 
 #endif

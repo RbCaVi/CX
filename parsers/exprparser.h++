@@ -33,7 +33,7 @@ private:
 	BinaryOpParser *op;
 public:
 	ExprParser();
-	bool run(ParserState<Expr> *state);
+	bool run(ParserState<Expr> *state) override;
 };
 
 #endif
