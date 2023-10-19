@@ -11,7 +11,7 @@ cflags := $(upper-cflags)
 
 .PHONY: all clean
 
-all: parser.o intparser.o opparser.o valueparser.o exprparser.o
+all: parser.o intparser.o opparser.o valueparser.o exprparser.o stringparser.o commasepparser.o
 
 parser.o: parser.c++ parser.h++ ../buffer.h++
 	$(cxx) -c $< -o $@
@@ -21,6 +21,12 @@ intparser.o: intparser.c++ intparser.h++ parser.h++ ../buffer.h++ ../whitespace.
 
 stringparser.o: stringparser.c++ stringparser.h++ parser.h++ ../buffer.h++ ../whitespace.h++
 	$(cxx) -c $< -o $@
+
+commasepparserpart.o: commasepparser.c++ commasepparser.h++ stringparser.h++ parser.h++ ../buffer.h++ ../whitespace.h++
+	$(cxx) -c $< -o $@
+
+commasepparser.o: commasepparserpart.o stringparser.o
+	ld -r $^ -o $@
 
 opparser.o: opparser.c++ opparser.h++ parser.h++ ../buffer.h++ ../whitespace.h++
 	$(cxx) -c $< -o $@
