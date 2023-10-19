@@ -4,9 +4,9 @@
 #include <vector>
 #include <tuple>
 
-#include "parserstate.h++"
-#include "valueparserstate.h++"
-#include "opparserstate.h++"
+#include "parser.h++"
+#include "valueparser.h++"
+#include "opparser.h++"
 
 enum class ExprType{
 	VALUE,EXPR

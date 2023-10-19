@@ -1,7 +1,7 @@
 #ifndef INTPARSER_H
 #define INTPARSER_H
 
-#include "parserstate.h++"
+#include "parser.h++"
 
 typedef long long unsigned int bigint;
 

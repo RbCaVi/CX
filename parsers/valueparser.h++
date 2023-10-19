@@ -3,8 +3,8 @@
 
 #include <string>
 
-#include "parserstate.h++"
-#include "intparserstate.h++"
+#include "parser.h++"
+#include "intparser.h++"
 
 enum class ValueType{
 	INT,END
