@@ -17,10 +17,11 @@ struct ParserState:public BaseParserState{
 	ParserState(Buffer *source,size_t start):BaseParserState(source,start){}
 };
 
-template<class T>
+template<class T,class V=T>
 class Parser{
 public:
 	typedef ParserState<T> State;
+	typedef V Value;
 	std::pair<bool,ParserState<T>*> runnew(Buffer *source,size_t start){
 		ParserState<T> *state=new ParserState<T>(source,start);
 		return std::pair(run(state),state);
@@ -34,6 +35,7 @@ public:
 	}
 	virtual bool run(ParserState<T> *state){return false;}
 	virtual bool backtrack(ParserState<T> *state){return false;}
+	virtual V getValue(ParserState<T> *state){return *(state->value);};
 };
 
 #endif
