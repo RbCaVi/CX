@@ -20,10 +20,10 @@ buffer.o: buffer.c++ buffer.h++
 file.o: file.c++ file.h++ buffer.h++
 	$(cxx) -c $< -o $@
 
-p2.o: p2.c++ parsers/exprparserstate.h++ parsers/valueparserstate.h++ parsers/intparserstate.h++ parsers/opparserstate.h++ parsers/parserstate.h++ file.h++ buffer.h++ whitespace.h++
+p2.o: p2.c++ parsers/exprparser.h++ parsers/valueparser.h++ parsers/intparser.h++ parsers/opparser.h++ parsers/parser.h++ file.h++ buffer.h++ whitespace.h++
 	$(cxx) -c $< -o $@
 
-p2: p2.o parsers/exprparserstate.o parsers/parserstate.o buffer.o whitespace.o
+p2: p2.o parsers/exprparser.o parsers/parser.o buffer.o whitespace.o
 	$(cxx) $^ -o $@
 
 test: parsers/all
