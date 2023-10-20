@@ -22,10 +22,7 @@ intparser.o: intparser.c++ intparser.h++ parser.h++ ../buffer.h++ ../whitespace.
 stringparser.o: stringparser.c++ stringparser.h++ parser.h++ ../buffer.h++ ../whitespace.h++
 	$(cxx) -c $< -o $@
 
-commasepparserpart.o: commasepparser.c++ commasepparser.h++ stringparser.h++ parser.h++ ../buffer.h++ ../whitespace.h++
-	$(cxx) -c $< -o $@
-
-commasepparser.o: commasepparserpart.o stringparser.o
+commasepparser.o: stringparser.o
 	ld -r $^ -o $@
 
 opparser.o: opparser.c++ opparser.h++ parser.h++ ../buffer.h++ ../whitespace.h++
