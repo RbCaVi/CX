@@ -6,8 +6,9 @@
 #include <string>
 
 class StringParser:public Parser<std::string>{
-	std::string &s;
-	StringParser(std::string s);
+public:
+	std::string *s;
+	StringParser(std::string *s);
 	bool run(ParserState<std::string> *state) override;
 };
 
