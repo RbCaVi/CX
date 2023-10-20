@@ -47,7 +47,7 @@ bool IntParser::run(ParserState<bigint> *state){
 		(*value)+=toAdd;
 		firstdigit=false;
 	}
-	if(i==state->start){
+	if(i==starti){
 		return false;
 	}
 	state->end=i;

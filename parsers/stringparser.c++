@@ -14,6 +14,10 @@ bool StringParser::run(ParserState<std::string> *state){
 			break;
 		}
 	}
+	if(matched){
+		state->value=s;
+	}
+	state->end=i+starti;
 	return matched;
 }
 

@@ -6,7 +6,7 @@
 #include "parsers/commasepparser.h++"
 
 int main(int,char**){
-	Buffer *s=new Buffer("1,3 ,5, 5");
+	Buffer *s=new Buffer("1,2,3");
 	printf("%i\n",skipWhitespace(s,0));
 	CommaSepParser<bigint> *p=new CommaSepParser(new IntParser());
 	auto [r,state]=p->runnew(s,0);
