@@ -187,5 +187,20 @@
 				]
 			}
 		]
+	},
+	{
+	"@->e":{
+		"@->children":{
+			"@->length()":2,
+			"(*@)[0]":{
+				"@->type":"ExprType::VALUE",
+				"@->value":3
+			},
+			"(*@)[1]":{
+				"@->type":"ExprType::VALUE",
+				"@->value":4
+			},
+		}
 	}
+}
 ]
