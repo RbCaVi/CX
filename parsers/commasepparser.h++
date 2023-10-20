@@ -7,13 +7,13 @@
 #include "stringparser.h++"
 
 template<class T,class V=T>
-class CommaSepParser:public Parser<std::vector<ParserState<T*>>,std::vector<V>>{
+class CommaSepParser:public Parser<std::vector<ParserState<T>*>,std::vector<V>>{
 public:
 	Parser<T,V> *parser;
 	StringParser *cparser;
 	CommaSepParser(Parser<T,V> *parser);
-	bool run(ParserState<std::vector<ParserState<T*>>> *state) override;
-	std::vector<V> *getValue(ParserState<std::vector<ParserState<T*>>> *state) override;
+	bool run(ParserState<std::vector<ParserState<T>*>> *state) override;
+	std::vector<V> *getValue(ParserState<std::vector<ParserState<T>*>> *state) override;
 };
 
 #include <tuple>
@@ -24,10 +24,12 @@ CommaSepParser<T,V>::CommaSepParser(Parser<T,V> *parser):parser(parser){
 }
 
 template<class T,class V>
-bool CommaSepParser<T,V>::run(ParserState<std::vector<ParserState<T*>>> *state){
+bool CommaSepParser<T,V>::run(ParserState<std::vector<ParserState<T>*>> *state){
+	state->value=new std::vector<ParserState<T>*>();
 	size_t end;
 
 	auto [presult,pstate]=parser->runnew(state->source,state->start);
+	state->value->push_back(pstate);
 	if(!presult){
 		return false;
 	}
@@ -50,7 +52,11 @@ bool CommaSepParser<T,V>::run(ParserState<std::vector<ParserState<T*>>> *state){
 }
 
 template<class T,class V>
-std::vector<V> CommaSepParser<T,V>::getValue(){
-
+std::vector<V> *CommaSepParser<T,V>::getValue(ParserState<std::vector<ParserState<T>*>> *state){
+	std::vector<V> *out=new std::vector<V>();
+	for(auto pstate:*(state->value)){
+		out->push_back(*(pstate->value));
+	}
+	return out;
 }
 #endif
