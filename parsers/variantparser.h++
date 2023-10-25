@@ -29,14 +29,14 @@ protected:
 };
 
 template<class... Ps>
-class VariantParser:public VariantParserImpl<0,std::variant<Ps*...>,getT<Ps...>,getV<Ps...>,Ps...>{
+class VariantParser:public VariantParserImpl<0,std::tuple<Ps*...>,getT<Ps...>,getV<Ps...>,Ps...>{
 	//typedef deinterleaveT<TVs...> T;
 	//typedef deinterleaveV<TVs...> V;
 	//typedef VariantParserImpl<0,deinterleaveT<TVs...>,deinterleaveV<TVs...>,getparsertuple<TVs...>,TVs...> TParser;
 	typedef std::tuple<Ps*...> TupleP;
 	typedef getT<Ps...> VariantT;
 	typedef getV<Ps...> VariantV;
-	typedef VariantParserImpl<0,std::variant<Ps*...>,getT<Ps...>,getV<Ps...>,Ps...> TParser;
+	typedef VariantParserImpl<0,std::tuple<Ps*...>,getT<Ps...>,getV<Ps...>,Ps...> TParser;
 public:
 	VariantParser(Ps *...ps);
 	bool run(ParserState<VariantT> *state) override;
@@ -75,7 +75,7 @@ VariantParser<Ps...>::VariantV *VariantParser<Ps...>::getValue(ParserState<Varia
 
 template<size_t idx,class TupleP,class VariantT,class VariantV>
 bool VariantParserImpl<idx,TupleP,VariantT,VariantV>::run(ParserState<VariantT> *state){
-	return true;
+	return false;
 }
 
 template<size_t idx,class TupleP,class VariantT,class VariantV>
@@ -86,21 +86,23 @@ VariantV *VariantParserImpl<idx,TupleP,VariantT,VariantV>::getValue(ParserState<
 template<size_t idx,class TupleP,class VariantT,class VariantV,class P,class... Ps>
 bool VariantParserImpl<idx,TupleP,VariantT,VariantV,P,Ps...>::run(ParserState<VariantT> *state){
 	auto [presult1,pstate1]=std::get<idx>(*(this->parsers))->runnew(state->source,state->end);
-	if(!presult1){
-		return false;
+	if(presult1){
+		std::get<idx>(*(state->value))=pstate1;
+		return true;
 	}
-	std::get<idx>(*(state->value))=pstate1;
 	state->end=pstate1->end;
 	bool presult2=VariantParserImpl<idx+1,TupleP,VariantT,VariantV,Ps...>::run(state);
-	if(!presult2){
-		return false;
+	if(presult2){
+		return true;
 	}
-	return true;
+	return false;
 }
 
 template<size_t idx,class TupleP,class VariantT,class VariantV,class P,class... Ps>
 VariantV *VariantParserImpl<idx,TupleP,VariantT,VariantV,P,Ps...>::getValue(ParserState<VariantT> *state){
 	VariantV *out=VariantParserImpl<idx+1,TupleP,VariantT,VariantV,Ps...>::getValue(state);
-	std::get<idx>(*out)=std::get<idx>(*(this->parsers))->getValue(std::get<idx>(*(state->value)));
+	if(idx==state->value->index()){
+		std::get<idx>(*out)=std::get<idx>(*(this->parsers))->getValue(std::get<idx>(*(state->value)));
+	}
 	return out;
 }
