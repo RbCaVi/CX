@@ -3,17 +3,6 @@
 #include <utility>
 #include <tuple>
 
-//https://stackoverflow.com/a/53398815
-template<typename ... input_t>
-using tuple_cat_t=
-decltype(std::tuple_cat(
-    std::declval<input_t>()...
-));
-
-template<size_t idx,typename input_t>
-using tuple_get_t=
-decltype(std::get<idx>(std::declval<input_t>()));
-
 template<class... Ps>
 using getT=std::tuple<typename Ps::State*...>;
 

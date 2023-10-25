@@ -4,17 +4,6 @@
 #include <tuple>
 #include <variant>
 
-//https://stackoverflow.com/a/53398815
-template<typename ... input_t>
-using variant_cat_t=
-decltype(std::variant_cat(
-    std::declval<input_t>()...
-));
-
-template<size_t idx,typename input_t>
-using variant_get_t=
-decltype(std::get<idx>(std::declval<input_t>()));
-
 template<class... Ps>
 using getT=std::variant<typename Ps::State*...>;
 
