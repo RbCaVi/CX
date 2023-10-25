@@ -4,12 +4,14 @@
 #include "parser.h++"
 
 #include <string>
+#include <variant> // for std::monostate
 
-class StringParser:public Parser<std::string>{
+class StringParser:public Parser<std::string,std::monostate>{
 public:
-	std::string *s;
-	StringParser(std::string *s);
-	bool run(ParserState<std::string> *state) override;
+	const std::string &s;
+	StringParser(const std::string &s);
+	bool run(ParserState<std::string> &state) override;
+	std::monostate getValue(ParserState<std::string> &state) override;
 };
 
 #endif
