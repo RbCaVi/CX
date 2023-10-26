@@ -6,12 +6,12 @@
 #include <string>
 #include <variant> // for std::monostate
 
-class StringParser:public Parser<std::string,std::monostate>{
+class StringParser:public Parser<std::monostate>{
 public:
 	const std::string &s;
 	StringParser(const std::string &s);
-	bool run(ParserState<std::string> &state) override;
-	std::monostate getValue(ParserState<std::string> &state) override;
+	bool run(ParserState<std::monostate> &state) override;
+	std::monostate getValue(ParserState<std::monostate> &state) override;
 };
 
 #endif

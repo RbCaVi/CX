@@ -40,14 +40,14 @@ template<class T,class V=T>
 class Parser:public ParserBase<T>{
 public:
 	typedef V Value;
-	virtual Value getValue(ParserBase<T>::State &state)=0;
+	virtual Value getValue(ParserState<T> &state)=0;
 };
 
 template<class T>
 class Parser<T,T>:public ParserBase<T>{
 public:
 	typedef T Value;
-	virtual Value getValue(ParserBase<T>::State &state) {return *(state.value);};
+	virtual Value getValue(ParserState<T> &state) {return *(state.value);};
 };
 
 #endif

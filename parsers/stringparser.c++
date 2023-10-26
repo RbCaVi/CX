@@ -4,7 +4,7 @@
 
 StringParser::StringParser(const std::string &s):s(s){}
 
-bool StringParser::run(ParserState<std::string> &state){
+bool StringParser::run(ParserState<std::monostate> &state){
 	size_t starti=skipWhitespace(state.source,state.start);
 	bool matched=true;
 	size_t i;
@@ -18,6 +18,6 @@ bool StringParser::run(ParserState<std::string> &state){
 	return matched;
 }
 
-std::monostate StringParser::getValue(ParserState<std::string> &state){
+std::monostate StringParser::getValue(ParserState<std::monostate> &state){
 	return {};
 }

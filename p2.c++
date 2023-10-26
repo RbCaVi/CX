@@ -1,31 +1,24 @@
 #include <iostream>
+#include <type_traits>
 
 #include "buffer.h++"
 #include "whitespace.h++"
 #include "parsers/intparser.h++"
-#include "parsers/stringparser.h++"
-#include "parsers/tupleparser.h++"
+#include "parsers/commasepparser.h++"
 
 int main(int,char**){
-	Buffer *s=new Buffer("1.,");
-	TupleParser<Parser<bigint>,Parser<std::string,std::monostate>> *p=new TupleParser<Parser<bigint>,Parser<std::string,std::monostate>>(new IntParser(),new StringParser(".,"));
-	auto [r,state]=p->runnew(s,0);
-	TupleParser<Parser<bigint>,Parser<std::string,std::monostate>>::Value value=p->getValue(state);
+	Buffer *s=new Buffer("1,3 ,5, 5");
+	CommaSepParser<bigint> *p=new CommaSepParser(new IntParser());
+	std::cout << p->cparser->s << " cssx" << std::endl;
+	auto *st=new CommaSepParser<bigint>::State(s,0);
+	auto r=p->run(*st);
+	auto state=*st;
+	//auto [r,state]=p->runnew(s,0);
+	CommaSepParser<bigint>::Value value=p->getValue(state);
 	std::cout << "r " << r << std::endl;
 	//std::cout << "r2 " << r2 << std::endl;
 	std::cout << "p->start " << state.start << std::endl;
 	std::cout << "p->end " << state.end << std::endl;
-	//std::cout << "p->value " << *(state->value) << std::endl;
-	//std::cout << "value->size() " << value->size() << std::endl;
-	std::cout << "std::get<0>(value) " << std::get<0>(value) << std::endl;
-	//std::cout << "value[1] " << (*value)[1] << std::endl;
-	//std::cout << "value[2] " << (*value)[2] << std::endl;
-	//std::cout << "std::get_if<0> " << std::get_if<0>(&value) << std::endl;
-	//if(std::get_if<0>(&value)!=NULL){
-	//	std::cout << "*std::get_if<0> " << *std::get_if<0>(&value) << std::endl;
-	//}
-	//std::cout << "std::get_if<1> " << std::get_if<1>(&value) << std::endl;
-	//if(std::get_if<1>(&value)!=NULL){
-	//	std::cout << "got ','" << std::endl;
-	//}
+	//std::cout << "p->value " << *(state.value) << std::endl;
+	std::cout << "value->size() " << value.size() << std::endl;
 }
