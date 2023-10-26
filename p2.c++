@@ -9,7 +9,6 @@
 int main(int,char**){
 	Buffer *s=new Buffer("1,3 ,5, 5");
 	CommaSepParser<bigint> *p=new CommaSepParser(new IntParser());
-	std::cout << p->cparser->s << " cssx" << std::endl;
 	auto *st=new CommaSepParser<bigint>::State(s,0);
 	auto r=p->run(*st);
 	auto state=*st;
