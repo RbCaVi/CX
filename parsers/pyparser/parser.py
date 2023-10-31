@@ -25,3 +25,8 @@ def parse(parser,s):
 	state=ParserState(s)
 	result=parser.parse(state)
 	return result,state
+
+def parseback(parser,state,back):
+	state=ParserState(s)
+	result=parser.parse(state)
+	return result,state
