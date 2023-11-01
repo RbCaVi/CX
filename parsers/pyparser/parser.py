@@ -1,3 +1,6 @@
+def called(f):
+	return f()
+
 def defaultbacktrack(state):
 	return False
 
