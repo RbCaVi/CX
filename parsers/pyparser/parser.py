@@ -1,20 +1,20 @@
 def called(f):
 	return f()
 
-def defaultbacktrack(state):
-	return False
-
-def defaultgetvalue(state):
-	try:
-		return state.value
-	except AttributeException:
-		return None
-
 class Parser:
-	def __init__(self,parse,backtrack=defaultbacktrack,getvalue=defaultgetvalue):
-		self.parse=parse
-		self.backtrack=backtrack
-		self.getvalue=getvalue
+	def __init__(self):
+
+	def parse(self,state):
+		return False
+
+	def backtrack(self,state):
+		return False
+
+	def getvalue(self,state):
+		try:
+			return state.value
+		except AttributeException:
+			return None
 
 class ParserState:
 	def __init__(self,s):
