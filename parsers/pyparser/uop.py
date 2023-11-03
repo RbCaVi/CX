@@ -4,9 +4,9 @@ from pyparser.basicparsers import stripped,transform
 uops=['+','-']
 
 @stripped
-@called
 def unaryop():
-	def parseuop(state):
+class UnaryOpParser():
+	def parse(state):
 		for i,uop in enumerate(uops):
 			if state.s.startswith(uop):
 				state.value=uop
@@ -14,7 +14,7 @@ def unaryop():
 				state.length=len(uop)
 				return True
 		return False
-	def backtrackuop(state):
+	def backtrack(state):
 		i=state.i
 		while i<uops.length:
 			uop=uops[i]

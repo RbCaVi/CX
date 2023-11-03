@@ -50,14 +50,16 @@ word=genericword(letters,letters+numbers)
 
 strip=charset(spaces)
 
-def concat(*parsers):
-	def parseconcated(state):
-		state.states=[ParserState(state)]+([None]*(len(parsers)-1))
+class ConcatParser:
+	def __init__(self,*parsers):
+		self.parsers=parsers
+	def parse(state):
+		state.states=[ParserState(state)]+([None]*(len(self.parsers)-1))
 		i=0
 		forwards=True
 		while True:
 			parsestate=state.states[i]
-			parser=parsers[i]
+			parser=self.parsers[i]
 			state.length-=parsestate.length
 			if forwards:
 				parsed=parser.parse(parsestate)
@@ -74,12 +76,12 @@ def concat(*parsers):
 				i-=1
 				if i<0:
 					return False
-	def backtrackconcated(state):
+	def backtrack(state):
 		i=len(state.states)-1
 		forwards=False
 		while True:
 			parsestate=state.states[i]
-			parser=parsers[i]
+			parser=self.parsers[i]
 			state.length-=parsestate.length
 			if forwards:
 				parsed=parser.parse(parsestate)
@@ -96,47 +98,49 @@ def concat(*parsers):
 				i-=1
 				if i<0:
 					return False
-	def getvalueconcated(state):
+	def getvalue(state):
 		out=[]
-		for parser,state in zip(parsers,state.states):
+		for parser,state in zip(self.parsers,state.states):
 			out.append(parser.getvalue(state))
 		return out
 	return Parser(parseconcated,backtrackconcated,getvalueconcated)
 
-def alternate(*parsers):
-	def parsealternated(state):
+class AlternatedParser:
+	def __init__(self,*parsers):
+		self.parsers=parsers
+	def parse(state):
 		parsestate=state
-		for i,parser in enumerate(parsers):
+		for i,parser in enumerate(self.parsers):
 			parsed,parsestate=parse(parser,state)
 			if parsed:
 				state.state=parsestate
 				state.i=i
 				return True
 		return False
-	def backtrackalternated(state):
+	def backtrack(state):
 		i=state.i
-		backed=parsers[i].backtrack(state.state)
+		backed=self.parsers[i].backtrack(state.state)
 		if backed:
 			return True
 		while True:
 			parsestate=state.states[i]
-			parser=parsers[i]
+			parser=self.parsers[i]
 			parsed,parsestate=parse(parser,state)
 			if parsed:
 				state.state=parsestate
 				state.i=i
 				return True
 			i+=1
-			if i>=len(parsers):
+			if i>=len(self.parsers):
 				return False
-	def getvaluealternated(state):
-		return parsers[state.i].getvalue(state.state)
-	return Parser(parsealternated,backtrackalternated,getvaluealternated)
+	def getvalue(state):
+		return state.i,self.parsers[state.i].getvalue(state.state)
 
 def transform(parser,f):
-	def getvaluetransformed(state):
-		return f(parser.getvalue(state))
-	return Parser(parser.parse,parser.backtrack,getvaluetransformed)
+	class TransformedParser(parser):
+		def getvalue(state):
+			return f(super().getvalue(state))
+	return TransformedParser
 
 def stripped(parser):
 	return transform(concat(strip,parser),operator.itemgetter(1))
