@@ -1,24 +1,18 @@
 from pyparser.parser import Parser,parse,ParserState
 import operator
 
+import traceback
+
 class CharsetParser(Parser):
-	def __init__(chars):
+	def __init__(self,chars):
 		self.chars=chars
 	def parse(self,state):
 		char=state.s[0]
-		if char not in startchars:
+		if char not in self.chars:
 			return False
 		state.value=char
 		state.length=1
 		return True
-
-genericword=lambda startchars,chars:transform(concat(charset(startchars),repeat(charset(chars))),lambda x:[x[0]]+x[1])
-
-letters=[chr(ord('a')+x) for x in range(26)]+[chr(ord('A')+x) for x in range(26)]
-numbers=[chr(ord('0')+x) for x in range(10)]
-spaces=' \t\n\r\f\v'
-
-word=genericword(letters,letters+numbers)
 
 class ConcatParser(Parser):
 	def __init__(self,*parsers):
@@ -73,9 +67,8 @@ class ConcatParser(Parser):
 		for parser,state in zip(self.parsers,state.states):
 			out.append(parser.getvalue(state))
 		return out
-	return Parser(parseconcated,backtrackconcated,getvalueconcated)
 
-class AlternatedParser(Parser):
+class AlternateParser(Parser):
 	def __init__(self,*parsers):
 		self.parsers=parsers
 	def parse(self,state):
@@ -106,19 +99,48 @@ class AlternatedParser(Parser):
 	def getvalue(self,state):
 		return state.i,self.parsers[state.i].getvalue(state.state)
 
-def transform(parser,f):
-	class TransformedParser(parser):
-		def getvalue(self,state):
-			return f(super().getvalue(state))
-	return TransformedParser
-
-def stripped(parser):
-	return transform(concat(repeat(charset(spaces)),parser),operator.itemgetter(1))
-
-class ConcatParser(Parser):
+class ComposedParser(Parser):
 	def parse(self,state):
 		return self.p.parse(state)
 	def backtrack(self,state):
 		return self.p.backtrack(state)
 	def getvalue(self,state):
 		return self.p.getvalue(state)
+
+class TransformParser(ComposedParser):
+	def __init__(self,parser,f):
+		self.p=parser
+		self.f=f
+	def getvalue(self,state):
+		return self.f(self.p.getvalue(state))
+
+def stripped(parser):
+	return transform(concat(repeat(charset(spaces)),parser),operator.itemgetter(1))
+
+class RepeatParser(ComposedParser):
+	def __init__(self,p):
+		self.p=alternate(concat(p,self),empty)
+
+class EmptyParser(Parser):
+	def parse(self,state):
+		state.len=0
+		return True
+
+concat=ConcatParser
+alternate=AlternateParser
+charset=CharsetParser
+repeat=RepeatParser
+transform=TransformParser
+
+StrParser=CharsetParser
+strp=CharsetParser
+
+empty=EmptyParser
+
+genericword=lambda startchars,chars:transform(concat(charset(startchars),repeat(charset(chars))),lambda x:[x[0]]+x[1])
+
+letters=[chr(ord('a')+x) for x in range(26)]+[chr(ord('A')+x) for x in range(26)]
+numbers=[chr(ord('0')+x) for x in range(10)]
+spaces=' \t\n\r\f\v'
+
+word=genericword(letters,letters+numbers)

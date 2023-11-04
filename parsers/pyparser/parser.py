@@ -2,8 +2,6 @@ def called(f):
 	return f()
 
 class Parser:
-	def __init__(self):
-
 	def parse(self,state):
 		return False
 
