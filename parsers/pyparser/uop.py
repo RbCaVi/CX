@@ -6,7 +6,7 @@ uops=['+','-']
 @stripped
 def unaryop():
 class UnaryOpParser():
-	def parse(state):
+	def parse(self,state):
 		for i,uop in enumerate(uops):
 			if state.s.startswith(uop):
 				state.value=uop
@@ -14,7 +14,7 @@ class UnaryOpParser():
 				state.length=len(uop)
 				return True
 		return False
-	def backtrack(state):
+	def backtrack(self,state):
 		i=state.i
 		while i<uops.length:
 			uop=uops[i]
