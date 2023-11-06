@@ -86,7 +86,7 @@ class AlternateParser(Parser):
 		if backed:
 			return True
 		while True:
-			parsestate=state.states[i]
+			parsestate=state.state
 			parser=self.parsers[i]
 			parsed,parsestate=parse(parser,state)
 			if parsed:
@@ -135,7 +135,7 @@ transform=TransformParser
 StrParser=CharsetParser
 strp=CharsetParser
 
-empty=EmptyParser
+empty=EmptyParser()
 
 genericword=lambda startchars,chars:transform(concat(charset(startchars),repeat(charset(chars))),lambda x:[x[0]]+x[1])
 

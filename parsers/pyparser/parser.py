@@ -23,6 +23,7 @@ class ParserState:
 		self.length=0
 
 def parse(parser,s):
+	print(parser)
 	state=ParserState(s)
 	result=parser.parse(state)
 	return result,state
