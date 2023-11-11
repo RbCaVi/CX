@@ -8,6 +8,22 @@ class Parser:
 			return None
 	def __repr__(self):
 		return f'{self.__class__.__name__}()'
+	def __add__(self,other):
+		if type(other) in [str,list,tuple]:
+			other=StrParser(other)
+		return concat(self,other)
+	def __radd__(self,other):
+		if type(other) in [str,list,tuple]:
+			other=StrParser(other)
+		return concat(other,self)
+	def __or__(self,other):
+		if type(other) in [str,list,tuple]:
+			other=StrParser(other)
+		return alternate(self,other)
+	def __ror__(self,other):
+		if type(other) in [str,list,tuple]:
+			other=StrParser(other)
+		return alternate(other,self)
 
 class ParserState:
 	def __init__(self,s,value=None):
