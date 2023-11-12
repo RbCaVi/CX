@@ -88,16 +88,88 @@ class TransformParser(Parser):
 		self.parser=parser
 		self.f=f
 	def parse(self,state):
-		return parser.parse(state)
+		return self.parser.parse(state)
 	def getvalue(self,state):
-		return map(f,parser.getvalue(state))
+		return map(f,self.parser.getvalue(state))
 	def __repr__(self):
 		return f'{self.__class__.__name__}({repr(self.parser)},{repr(self.f)})'
 
-class StrSetParser(Parser):
-	def __init__(self,ss):
-		self.ss=ss
+def flatten(s):
+	if type(s)==str:
+		return s
+	try:
+		return sum([flatten(x) for x in s],[])
+	except TypeError:
+		return s
+
+class StrParser(Parser):
+	def __init__(self,*ss):
+		self.ss=flatten(ss)
 	def parse(self,state):
 		yield from map(lambda s:ParserState(state,s).advance(len(s)),filter(state.s.startswith,self.ss))
 	def __repr__(self):
 		return f'{self.__class__.__name__}({repr(self.ss)})'
+
+def flatten2(s):
+	if type(s)==str and len(s)==1:
+		return s
+	try:
+		return [flatten2(x) for x in s]
+	except TypeError:
+		return s
+
+class CharsetParser(Parser):
+	def __init__(self,*ss):
+		self.ss=flatten2(ss)
+	def parse(self,state):
+		yield from map(lambda s:ParserState(state,s).advance(len(s)),filter(state.s.startswith,self.ss))
+	def __repr__(self):
+		return f'{self.__class__.__name__}({repr(self.ss)})'
+
+class ComposedParser(Parser):
+	def parse(self,state):
+		return self.parser.parse(state)
+	def getvalue(self,state):
+		return self.parser.getvalue(state)
+	def __repr__(self):
+		return f'{self.__class__.__name__}({repr(self.parser)})'
+
+class RepeatParser(ComposedParser):
+	def __init__(self,parser):
+		self.p=parser
+		self.parser=optional(parser+self)
+	def getvalue(self,state):
+		return map(f,self.parser.getvalue(state))
+	def __repr__(self):
+		return f'{self.__class__.__name__}({repr(self.p)})'
+
+class EmptyParser(Parser):
+	def parse(self,state):
+		yield state.advance(0)
+	def getvalue(self,state):
+		return None
+	def __repr__(self):
+		return f'{self.__class__.__name__}()'
+
+class OptionalParser(ComposedParser):
+	def __init__(self,parser):
+		self.p=parser
+		self.parser=alternate(parser,empty)
+	def __repr__(self):
+		return f'{self.__class__.__name__}({repr(self.p)})'
+
+StrsParser=StrParser
+StrSetParser=StrParser
+
+empty=EmptyParser()
+concat=ConcatParser
+alternate=AlternateParser
+repeat=RepeatParser
+optional=OptionalParser
+transform=TransformParser
+
+class ExprParser(ComposedParser):
+	def __init__(self):
+		pass
+		#valuep=
+		#self.parser=
