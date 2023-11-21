@@ -24,6 +24,8 @@ class Parser:
 		if type(other) in [str,list,tuple]:
 			other=StrParser(other)
 		return alternate(other,self)
+	def __pos__(self):
+		return atomic(self)
 
 class ParserState:
 	def __init__(self,s,value=None):
@@ -158,6 +160,14 @@ class OptionalParser(ComposedParser):
 	def __repr__(self):
 		return f'{self.__class__.__name__}({repr(self.p)})'
 
+class AtomicParser(Parser):
+	def __init__(self,parser):
+		self.parser=parser
+	def parse(self,state):
+		return self.parser.parse(state)
+	def __repr__(self):
+		return f'{self.__class__.__name__}({repr(self.parser)})'
+
 StrsParser=StrParser
 StrSetParser=StrParser
 
@@ -167,6 +177,8 @@ alternate=AlternateParser
 repeat=RepeatParser
 optional=OptionalParser
 transform=TransformParser
+atomic=AtomicParser
+posessive=AtomicParser
 
 class ExprParser(ComposedParser):
 	def __init__(self):
