@@ -141,7 +141,12 @@ class RepeatParser(ComposedParser):
 		self.p=parser
 		self.parser=optional(parser+self)
 	def getvalue(self,state):
-		return map(f,self.parser.getvalue(state))
+		t,v=self.parser.getvalue(state)
+		if t==0:
+			return []
+		else:
+			v,vs=v
+			return [v]+vs
 	def __repr__(self):
 		return f'{self.__class__.__name__}({repr(self.p)})'
 
