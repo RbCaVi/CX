@@ -204,7 +204,8 @@ class MultiplyParser(Parser):
 	def getvalue(self,state):
 		return [self.p.getvalue(s) for s in state.states]
 	def __repr__(self):
-		return f'{repr(self.p)}*'
+		return f'{repr(self.p)}{{{self.slice.start},{self.slice.stop},{self.slice.step or ""}}}'
+
 class EmptyParser(Parser):
 	def parse(self,state):
 		yield state.advance(0)
