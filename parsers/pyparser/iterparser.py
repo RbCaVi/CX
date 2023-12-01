@@ -136,28 +136,24 @@ class ComposedParser(Parser):
 	def __repr__(self):
 		return f'{self.__class__.__name__}({repr(self.parser)})'
 
-class RepeatParser(ComposedParser):
-	def __init__(self,parser):
-		self.p=parser
-		self.parser=optional(parser+self)
-	def getvalue(self,state):
-		t,v=self.parser.getvalue(state)
-		if t==0:
-			return []
-		else:
-			v,vs=v
-			return [v]+vs
-	def __repr__(self):
-		return f'{repr(self.p)}*'
+def slicecontains(s,n):
+	start,step,stop=s.start,s.step,s.stop
+	if start is None:
+		start=0
+	if step is None:
+		step=1
+	return n>=start and n<=stop and (n-start)%step==0
 
-class RepeatUpToParser(ComposedParser):
-	def __init__(self,parser,n):
+class MultiplyParser(Parser):
+	def __init__(self,parser,sl):
+		if type(sl)!=slice:
+			sl=slice(sl,sl,1)
+		self.slice=sl
 		self.p=parser
-		self.n=n
 	def parse(self,state):
 		gs=[None]
 		ss=[state]
-		if self.n==0:
+		if self.slice.stop==0:
 			st=ParserState(state)
 			st.states=[]
 			yield st
@@ -166,7 +162,9 @@ class RepeatUpToParser(ComposedParser):
 		# while true:
 		#   next and go up
 		#   otherwise go down one
-		while len(ss)-1<self.n:
+
+		# go up as far as possible
+		while self.slice.stop is None or len(ss)-1<self.slice.stop:
 			g=self.p.parse(ss[-1])
 			try:
 				s=next(g)
@@ -174,16 +172,20 @@ class RepeatUpToParser(ComposedParser):
 				break
 			gs.append(g)
 			ss.append(s)
+
 		while True:
-			st=ParserState(ss[-1])
-			st.states=ss[1:]
-			yield st
+			# only yield if there are enough repeats
+			if slicecontains(self.slice,len(ss)-1):
+				st=ParserState(ss[-1])
+				st.states=ss[1:]
+				yield st
+
 			g=gs[-1]
 			try:
 				# next
 				ss[-1]=next(g)
 				# and go up
-				while len(ss)-1<self.n:
+				while self.slice.stop is None or len(ss)-1<self.slice.stop:
 					g=self.p.parse(ss[-1])
 					try:
 						s=next(g)
