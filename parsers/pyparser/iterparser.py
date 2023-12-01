@@ -202,7 +202,7 @@ class MultiplyParser(Parser):
 			except TypeError: # if back to the bottom (TypeError from next(None))
 				return
 	def getvalue(self,state):
-		return [self.p.getvalue(s) for s in state.states[1:]]
+		return [self.p.getvalue(s) for s in state.states]
 	def __repr__(self):
 		return f'{repr(self.p)}*'
 class EmptyParser(Parser):
