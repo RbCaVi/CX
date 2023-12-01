@@ -26,6 +26,8 @@ class Parser:
 		return alternate(other,self)
 	def __pos__(self):
 		return atomic(self)
+	def __getindex__(self,idx):
+		return multiply(self,idx)
 
 class ParserState:
 	def __init__(self,s,value=None):
@@ -232,7 +234,8 @@ StrSetParser=StrParser
 empty=EmptyParser()
 concat=ConcatParser
 alternate=AlternateParser
-repeat=RepeatParser
+repeat=MultiplyParser
+multiply=MultiplyParser
 optional=OptionalParser
 transform=TransformParser
 atomic=AtomicParser
