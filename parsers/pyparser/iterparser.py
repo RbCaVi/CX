@@ -61,7 +61,7 @@ class AlternateParser(Parser):
 	def getvalue(self,state):
 		return state.i,self.parsers[state.i].getvalue(state.state)
 	def __repr__(self):
-		return f'{self.__class__.__name__}({",".join(map(repr,self.parsers))})'
+		return f'({"|".join(map(repr,self.parsers))})'
 
 
 import itertools
@@ -83,7 +83,7 @@ class ConcatParser(Parser):
 	def getvalue(self,state):
 		return [p.getvalue(s) for p,s in zip(self.parsers,state.states[1:])]
 	def __repr__(self):
-		return f'{self.__class__.__name__}({",".join(map(repr,self.parsers))})'
+		return f'({"".join(map(repr,self.parsers))})'
 
 class TransformParser(Parser):
 	def __init__(self,parser,f):
