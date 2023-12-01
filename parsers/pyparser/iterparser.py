@@ -26,7 +26,7 @@ class Parser:
 		return alternate(other,self)
 	def __pos__(self):
 		return atomic(self)
-	def __getindex__(self,idx):
+	def __getitem__(self,idx):
 		return multiply(self,idx)
 
 class ParserState:
