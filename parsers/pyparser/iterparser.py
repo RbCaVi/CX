@@ -148,7 +148,7 @@ class RepeatParser(ComposedParser):
 			v,vs=v
 			return [v]+vs
 	def __repr__(self):
-		return f'{self.__class__.__name__}({repr(self.p)})'
+		return f'{repr(self.p)}*'
 
 class EmptyParser(Parser):
 	def parse(self,state):
