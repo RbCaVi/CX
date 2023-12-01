@@ -150,6 +150,57 @@ class RepeatParser(ComposedParser):
 	def __repr__(self):
 		return f'{repr(self.p)}*'
 
+class RepeatUpToParser(ComposedParser):
+	def __init__(self,parser,n):
+		self.p=parser
+		self.n=n
+	def parse(self,state):
+		gs=[None]
+		ss=[state]
+		if self.n==0:
+			st=ParserState(state)
+			st.states=[]
+			yield st
+			return
+		# go up as far as possible
+		# while true:
+		#   next and go up
+		#   otherwise go down one
+		while len(ss)-1<self.n:
+			g=self.p.parse(ss[-1])
+			try:
+				s=next(g)
+			except StopIteration:
+				break
+			gs.append(g)
+			ss.append(s)
+		while True:
+			st=ParserState(ss[-1])
+			st.states=ss[1:]
+			yield st
+			g=gs[-1]
+			try:
+				# next
+				ss[-1]=next(g)
+				# and go up
+				while len(ss)-1<self.n:
+					g=self.p.parse(ss[-1])
+					try:
+						s=next(g)
+					except StopIteration:
+						break
+					gs.append(g)
+					ss.append(s)
+			except StopIteration: # otherwise
+				# go down
+				gs.pop()
+				ss.pop()
+			except TypeError: # if back to the bottom (TypeError from next(None))
+				return
+	def getvalue(self,state):
+		return [self.p.getvalue(s) for s in state.states[1:]]
+	def __repr__(self):
+		return f'{repr(self.p)}*'
 class EmptyParser(Parser):
 	def parse(self,state):
 		yield state.advance(0)
