@@ -6,6 +6,7 @@
 #result,state=parse(unaryop,'8')
 
 from pyparser.iterparser import StrSetParser,ParserState,ConcatParser,AlternateParser
+from pyparser import iterparser
 
 def test(p,ss):
 	for s in ss:
@@ -38,3 +39,7 @@ test(p,['75','7','5'])
 p=p1|p2
 
 test(p,['75','7','5'])
+
+p=(p1|p2)[:3]
+
+test(p,['7575755575','775577','5575757'])
