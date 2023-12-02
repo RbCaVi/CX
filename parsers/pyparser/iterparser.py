@@ -241,9 +241,3 @@ optional=OptionalParser
 transform=TransformParser
 atomic=AtomicParser
 posessive=AtomicParser
-
-class ExprParser(ComposedParser):
-	def __init__(self):
-		pass
-		#valuep=
-		#self.parser=
